@@ -1,4 +1,4 @@
-import ProdutoDAO from "../persistencia/produtoDAO.js";
+import ProdutoDAO from "../Persistencia/produtoDAO.js";
 
 export default class Produto{
     #codigo;
