@@ -2,6 +2,28 @@ import Categoria from "../Modelo/categoria.js";
 import conectar from "./conexao.js";
 //DAO = Data Access Object -> Objeto de acesso aos dados
 export default class CategoriaDAO{
+
+    constructor() {
+        this.init();
+    }
+    
+    async init() {
+        try 
+        {
+            const conexao = await conectar(); //retorna uma conexão
+            const sql = `
+                CREATE TABLE IF NOT EXISTS categoria(
+                    cat_codigo INT NOT NULL AUTO_INCREMENT,
+                    cat_descricao VARCHAR(100) NOT NULL,
+                    CONSTRAINT pk_categoria PRIMARY KEY(cat_codigo)
+                );`;
+            await conexao.execute(sql);
+            await conexao.release();
+        }
+        catch (e) {
+            console.log("Não foi possível iniciar o banco de dados: " + e.message);
+        }
+    }
     async gravar(categoria){
         if (categoria instanceof Categoria){
             const sql = "INSERT INTO categoria(cat_descricao) VALUES(?)"; 

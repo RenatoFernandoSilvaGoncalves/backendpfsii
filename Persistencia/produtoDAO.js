@@ -1,7 +1,35 @@
-import Produto from '../modelo/produto.js';
+import Produto from '../Modelo/produto.js';
 import conectar from './conexao.js';
 
 export default class ProdutoDAO {
+
+    constructor() {
+        this.init();
+    }
+
+    async init() {
+        try 
+        {
+            const conexao = await conectar(); //retorna uma conexão
+            const sql = `
+            CREATE TABLE IF NOT EXISTS produto(
+                prod_codigo INT NOT NULL AUTO_INCREMENT,
+                prod_descricao VARCHAR(100) NOT NULL,
+                prod_precoCusto DECIMAL(10,2) NOT NULL DEFAULT 0,
+                prod_precoVenda DECIMAL(10,2) NOT NULL DEFAULT 0,
+                prod_dataValidade DATE,
+                prod_qtdEstoque DECIMAL(10,2) NOT NULL DEFAULT 0,
+                CONSTRAINT pk_produto PRIMARY KEY(prod_codigo)
+            )
+        `;
+            await conexao.execute(sql);
+            await conexao.release();
+        }
+        catch (e) {
+            console.log("Não foi possível iniciar o banco de dados: " + e.message);
+        }
+    }
+
 
     async gravar(produto) {
         if (produto instanceof Produto) {
@@ -70,13 +98,11 @@ export default class ProdutoDAO {
         else
         {
             //consulta pela descrição do produto
-            const sql = `SELECT p.prod_codigo, p.prod_descricao,
-              p.prod_precoCusto, p.prod_precoVenda, p.prod_dataValidade, 
-              p.prod_qtdEstoque,
-              FROM produto p 
-              WHERE p.prod_descricao like ?
-              ORDER BY p.prod_descricao               
-            `;
+            const sql = `SELECT p.prod_codigo, p.prod_descricao, p.prod_precoCusto, 
+                         p.prod_precoVenda, p.prod_dataValidade, p.prod_qtdEstoque
+                         FROM produto p 
+                         WHERE p.prod_descricao like ?
+                         ORDER BY p.prod_descricao`;
             const parametros=['%'+termo+'%'];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){

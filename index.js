@@ -4,7 +4,7 @@ import rotaCategoria from './Rotas/rotaCategoria.js';
 import rotaProduto from './Rotas/rotaProduto.js';
 
 const host='0.0.0.0';
-const porta='3000';
+const porta=3000;
 
 const app = express();
 
