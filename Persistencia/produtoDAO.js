@@ -27,7 +27,7 @@ export default class ProdutoDAO {
             )
         `;
             await conexao.execute(sql);
-            await conexao.release();
+            global.poolConexoes.releaseConnection(conexao);
         }
         catch (e) {
             console.log("Não foi possível iniciar o banco de dados: " + e.message);
@@ -39,7 +39,7 @@ export default class ProdutoDAO {
         if (produto instanceof Produto) {
             const sql = `INSERT INTO produto(prod_descricao, prod_precoCusto,
                 prod_precoVenda, prod_dataValidade, prod_qtdEstoque, cat_codigo)
-                VALUES(?,?,?,?,?,?)`;
+                VALUES(?,?,?,str_to_date(?,"%d/%m/%Y"),?,?)`;
             const parametros = [produto.descricao, produto.precoCusto, produto.precoVenda,
             produto.dataValidade, produto.qtdEstoque, produto.categoria.codigo];
 
@@ -52,7 +52,7 @@ export default class ProdutoDAO {
     async atualizar(produto) {
         if (produto instanceof Produto) {
             const sql = `UPDATE produto SET prod_descricao = ?, prod_precoCusto = ?,
-            prod_precoVenda = ?, prod_dataValidade = ?, prod_qtdEstoque = ?, cat_codigo = ?
+            prod_precoVenda = ?, prod_dataValidade = str_to_date(?,"%d/%m/%Y"), prod_qtdEstoque = ?, cat_codigo = ?
             WHERE prod_codigo = ?`;
             const parametros = [produto.descricao, produto.precoCusto, produto.precoVenda,
             produto.dataValidade, produto.qtdEstoque, produto.categoria.codigo, produto.codigo];
@@ -92,6 +92,7 @@ export default class ProdutoDAO {
             `;
             const parametros=[termo];
             const [registros, campos] = await conexao.execute(sql,parametros);
+            global.poolConexoes.releaseConnection(conexao);
             for (const registro of registros){
                 const produto = new Produto(registro.prod_codigo,registro.prod_descricao,
                                             registro.prod_precoCusto,registro.prod_precoVenda,

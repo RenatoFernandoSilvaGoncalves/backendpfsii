@@ -88,7 +88,7 @@ export default class Produto{
             descricao:this.#descricao,
             precoCusto:this.#precoCusto,
             precoVenda:this.#precoVenda,
-            dataValidade:this.#dataValidade,
+            dataValidade: new Date(this.#dataValidade).toLocaleDateString(),
             qtdEstoque:this.#qtdEstoque,
             categoria:this.#categoria
         }

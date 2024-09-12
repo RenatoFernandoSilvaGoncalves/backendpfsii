@@ -94,6 +94,7 @@ export default class CategoriaDAO{
                          WHERE c.cat_codigo = ?`;
             const parametros = [categoria.codigo];
             const [registros] = await global.poolConexoes.execute(sql,parametros);
+            global.poolConexoes.releaseConnection(conexao);
             return registros[0].qtd > 0;
         }
     }
