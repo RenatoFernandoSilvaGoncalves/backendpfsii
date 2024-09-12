@@ -84,19 +84,31 @@ export default class CategoriaCtrl {
             const codigo = dados.codigo;
             if (codigo) {
                 const categoria = new Categoria(codigo);
-                //resolver a promise
-                categoria.excluir().then(() => {
-                    resposta.status(200).json({
-                        "status": true,
-                        "mensagem": "Categoria excluída com sucesso!"
-                    });
-                })
-                    .catch((erro) => {
-                        resposta.status(500).json({
-                            "status": false,
-                            "mensagem": "Erro ao excluir a categoria:" + erro.message
+                categoria.possuiProdutos().then(possui =>{
+                    if (possui == false) {
+                        categoria.excluir().then(() => {
+                            resposta.status(200).json({
+                                "status": true,
+                                "mensagem": "Categoria excluída com sucesso!"
+                            });
+                        })
+                        .catch((erro) => {
+                                resposta.status(500).json({
+                                    "status": false,
+                                    "mensagem": "Erro ao excluir a categoria:" + erro.message
+                                });
                         });
-                    });
+                    }
+                    else{
+                        resposta.status(400).json({
+                            "status": false,
+                            "mensagem": "Esta categoria possui produtos e não pode ser excluída!"
+                        });
+                    }
+
+                }); //possuiProdutos 
+                //resolver a promise
+                
             }
             else {
                 resposta.status(400).json({

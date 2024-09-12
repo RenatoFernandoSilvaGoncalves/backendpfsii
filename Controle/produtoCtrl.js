@@ -1,4 +1,5 @@
 import Produto from "../Modelo/produto.js";
+import Categoria from "../Modelo/categoria.js";
 
 export default class ProdutoCtrl {
 
@@ -11,11 +12,13 @@ export default class ProdutoCtrl {
             const precoVenda = dados.precoVenda;
             const dataValidade = dados.dataValidade;
             const qtdEstoque = dados.qtdEstoque;
+            const cat_codigo = dados.categoria.codigo;
 
             if (descricao && precoCusto > 0 && precoVenda > 0 && dataValidade
-                && qtdEstoque >= 0) {
+                && qtdEstoque >= 0 && cat_codigo > 0) {
+                const categoria = new Categoria(cat_codigo);
                 const produto = new Produto(0, descricao, precoCusto,
-                    precoVenda, dataValidade, qtdEstoque
+                    precoVenda, dataValidade, qtdEstoque, categoria
                 );
                 //resolver a promise
                 produto.gravar().then(() => {
@@ -57,10 +60,12 @@ export default class ProdutoCtrl {
             const precoVenda = dados.precoVenda;
             const dataValidade = dados.dataValidade;
             const qtdEstoque = dados.qtdEstoque;
+            const cat_codigo = dados.categoria.codigo;
             if (codigo && descricao && precoCusto > 0 && precoVenda > 0 && dataValidade
-                && qtdEstoque >= 0) {
+                && qtdEstoque >= 0 && cat_codigo > 0) {
+                const categoria = new Categoria(cat_codigo);
                 const produto = new Produto(codigo, descricao, precoCusto,
-                    precoVenda, dataValidade, qtdEstoque);
+                    precoVenda, dataValidade, qtdEstoque, categoria);
                 //resolver a promise
                 produto.atualizar().then(() => {
                     resposta.status(200).json({

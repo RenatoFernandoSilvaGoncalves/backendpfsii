@@ -59,4 +59,9 @@ export default class Categoria {
         const catDAO = new CategoriaDAO();
         return await catDAO.consultar(parametro);
     }
+
+    async possuiProdutos(){
+        const catDAO = new CategoriaDAO();
+        return await catDAO.possuiProdutos(this);
+    }
 }
