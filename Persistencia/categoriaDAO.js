@@ -93,7 +93,8 @@ export default class CategoriaDAO{
                          INNER JOIN categoria c ON p.cat_codigo = c.cat_codigo
                          WHERE c.cat_codigo = ?`;
             const parametros = [categoria.codigo];
-            const [registros] = await global.poolConexoes.execute(sql,parametros);
+            const conexao = await conectar();
+            const [registros] = await conexao.execute(sql,parametros);
             global.poolConexoes.releaseConnection(conexao);
             return registros[0].qtd > 0;
         }

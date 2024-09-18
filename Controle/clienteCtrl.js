@@ -154,7 +154,10 @@ export default class ClienteCTRL{
             const cliente = new Cliente();
             //método assíncrono que recupera os clientes do banco dados
             cliente.consultar('').then((clientes)=>{
-                    resposta.status(200).json(clientes);
+                    resposta.status(200).json({
+                        status:true,
+                        listaClientes:clientes
+                    });
             }).catch((erro) => {
                 resposta.status(500).json({
                     status:false,
@@ -182,7 +185,10 @@ export default class ClienteCTRL{
             const cliente = new Cliente();
             //método assíncrono que recupera os clientes do banco dados
             cliente.consultarCPF(cpf).then((cliente)=>{
-                    resposta.status(200).json(cliente);
+                    resposta.status(200).json({
+                        status:true,
+                        listaClientes:cliente
+                    });
             }).catch((erro) => {
                 resposta.status(500).json({
                     status:false,

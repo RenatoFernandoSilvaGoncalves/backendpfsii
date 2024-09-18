@@ -50,7 +50,7 @@ export default class ProdutoDAO {
         }
     }
     async atualizar(produto) {
-        if (produto instanceof Produto) {
+        if (produto instanceof Produto) {  
             const sql = `UPDATE produto SET prod_descricao = ?, prod_precoCusto = ?,
             prod_precoVenda = ?, prod_dataValidade = str_to_date(?,"%d/%m/%Y"), prod_qtdEstoque = ?, cat_codigo = ?
             WHERE prod_codigo = ?`;

@@ -14,6 +14,7 @@ export default class ClienteDAO{
                              cliente.bairro, cliente.cidade, cliente.uf,
                              cliente.telefone, cliente.email];                                        
             await conexao.query(sql,valores);
+            global.poolConexoes.releaseConnection(conexao);
         }
 
     }
@@ -29,6 +30,7 @@ export default class ClienteDAO{
                              cliente.bairro, cliente.cidade, cliente.uf,
                              cliente.telefone, cliente.email, cliente.cpf];                                        
             await conexao.query(sql,valores);
+            global.poolConexoes.releaseConnection(conexao);
         }
     }
 
@@ -39,6 +41,7 @@ export default class ClienteDAO{
             const sql="DELETE FROM cliente WHERE cpf=?";
             const valores = [cliente.cpf];                                        
             await conexao.query(sql,valores);
+            global.poolConexoes.releaseConnection(conexao);
         } 
 
     }
@@ -48,6 +51,7 @@ export default class ClienteDAO{
         const sql = "SELECT * FROM cliente WHERE nome LIKE ?";
         const valores = ['%' + termo + '%']
         const [rows] = await conexao.query(sql, valores);
+        global.poolConexoes.releaseConnection(conexao);
         const listaClientes = [];
         for(const row of rows){
             const cliente = new Cliente(row['codigo'],row['cpf'],row['nome'],
@@ -63,6 +67,7 @@ export default class ClienteDAO{
         const sql = "SELECT * FROM cliente WHERE cpf = ?";
         const valores = [cpf]
         const [rows] = await conexao.query(sql, valores);
+        global.poolConexoes.releaseConnection(conexao);
         const listaClientes = [];
         for(const row of rows){
             const cliente = new Cliente(row['cpf'],row['nome'],

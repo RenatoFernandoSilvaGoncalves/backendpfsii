@@ -25,6 +25,7 @@ export default class PedidoDao {
                     await conexao.execute(sql2, parametros2);
                 }
                 await conexao.commit(); //se chegou até aqui sem erros, confirmaremos as inclusões
+                global.poolConexoes.releaseConnection(conexao);
             }
             catch (error) {
                 await conexao.rollback(); //voltar o banco de dados ao estado anterior
@@ -58,7 +59,7 @@ export default class PedidoDao {
                         INNER JOIN categoria as cat ON prod.cat_codigo = cat.cat_codigo
                         WHERE p.codigo = ?`;
             const [registros, campos] = await conexao.execute(sql, [termoBusca]);
-
+            global.poolConexoes.releaseConnection(conexao);
             if (registros.length > 0) {
 
                 // a partir dos registros precisaremos restaurar os objetos

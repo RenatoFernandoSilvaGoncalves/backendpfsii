@@ -24,7 +24,7 @@ app.use(session({
     saveUninitialized: true, //salvar sessões não iniciadas
     cookie: { 
         httpOnly: false,
-        secure: false,
+        secure: false, 
         sameSite: false,
         maxAge: 1000 * 60 * 15 } //tempo máximo de ociosidade para considerar a sessão vencida
 }));
