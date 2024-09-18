@@ -2,7 +2,6 @@ import ClienteDAO from '../Persistencia/ClienteDAO.js';
 
 export default class Cliente{
 
-    #codigo;
     #cpf;  //# define que um atributo seja privado
     #nome;
     #endereco;
@@ -13,8 +12,7 @@ export default class Cliente{
     #email;
 
     //método construtor que define as informações necessárias para se criar um cliente
-    constructor(codigo, cpf, nome, endereco, bairro, cidade, uf, telefone, email){
-        this.#codigo= codigo;
+    constructor(cpf, nome, endereco, bairro, cidade, uf, telefone, email){
         this.#cpf = cpf;
         this.#nome = nome;
         this.#endereco = endereco;
@@ -26,13 +24,6 @@ export default class Cliente{
         
     }
 
-    get codigo(){
-        return this.#codigo;
-    }
-
-    set codigo(novoCodigo){
-        this.codigo = novoCodigo;
-    }
 
     get cpf(){
         return this.#cpf;
@@ -102,7 +93,6 @@ export default class Cliente{
     //override ou sobrescrita do método toJSON
     toJSON(){
         return {
-            "codigo"   : this.#codigo,
             "cpf"      : this.#cpf,
             "nome"     : this.#nome,
             "endereco" : this.#endereco,

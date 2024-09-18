@@ -5,6 +5,7 @@ const rotaPedido = new Router();
 const pedidoCtrl = new PedidoCtrl();
 
 rotaPedido
+.get('/', pedidoCtrl.consultar)
 .get('/:termo', pedidoCtrl.consultar)
 .post('/', pedidoCtrl.gravar);
 //.patch('/', pedidoCtrl.atualizar)

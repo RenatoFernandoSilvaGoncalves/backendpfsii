@@ -14,7 +14,7 @@ export default class PedidoCtrl{
             const totalPedido = dados.totalPedido;
             const itensPedido = dados.itens;
             //instanciando um objeto do tipo Pedido
-            const objCliente = new Cliente(cliente.codigo);
+            const objCliente = new Cliente(cliente.cpf);
             //instanciando uma lista de objetos do tipo ItensPedido
             let itens = [];
             for (const item of itensPedido){
@@ -54,27 +54,27 @@ export default class PedidoCtrl{
         if (requisicao.method === 'GET'){
             //tentar obter o código do pedido a partir dos parâmetros da URL 
             let termo = requisicao.params.termo;
-            if (!isNaN(termo)){
-                const pedido = new Pedido(0);
-                pedido.consultar(termo).then((listaPedidos)=>{
-                    resposta.status(200).json({
-                        "status": true,
-                        "listaPedidos": listaPedidos
-                    })
+            /*if (!isNaN(termo)){*/
+            const pedido = new Pedido(0);
+            pedido.consultar(termo).then((listaPedidos)=>{
+                resposta.status(200).json({
+                    "status": true,
+                    "listaPedidos": listaPedidos
                 })
-                .catch((erro)=>{
-                    resposta.status(500).json({
-                        "status": false,
-                        "mensagem": "Erro ao consultar o pedido: " + erro.message
-                    });
-                })
-            }
+            })
+            .catch((erro)=>{
+                resposta.status(500).json({
+                    "status": false,
+                    "mensagem": "Erro ao consultar o pedido: " + erro.message
+                });
+            });
+            /*}
             else{
                 resposta.status(400).json({
                     "status": false,
                     "mensagem": "Por favor, informe um códido de pedido válido!"
                 });
-            }
+            }*/
         }
         else{
             resposta.status(400).json({

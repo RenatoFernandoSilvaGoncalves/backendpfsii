@@ -54,7 +54,7 @@ export default class ClienteDAO{
         global.poolConexoes.releaseConnection(conexao);
         const listaClientes = [];
         for(const row of rows){
-            const cliente = new Cliente(row['codigo'],row['cpf'],row['nome'],
+            const cliente = new Cliente(row['cpf'],row['nome'],
             row['endereco'],row['bairro'],row['cidade'],row['estado'], 
             row['telefone'], row['email']);
             listaClientes.push(cliente);
